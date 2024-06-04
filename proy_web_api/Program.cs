@@ -6,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-string connetionString = builder.Configuration.GetConnectionString("DefaultConnection");
+string connetionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
+                         builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connetionString));
 
 builder.Services.AddEndpointsApiExplorer();
